@@ -15,6 +15,7 @@ import { hot } from 'react-hot-loader/root';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
+import '../../components/common/styles/tailwind.css';
 import '../../components/common/styles/main.scss';
 
 function App() {

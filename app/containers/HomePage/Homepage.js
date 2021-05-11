@@ -11,7 +11,11 @@ export default class HomePage extends React.PureComponent {
             content="A React.js Boilerplate application homepage"
           />
         </Helmet>
-        <div>Home Page</div>
+        <div className="container mx-auto">
+          <h1 className="bg-red-500 mx-auto text-white text-center p-4 m-4 shadow-lg rounded-full">
+            Home Page
+          </h1>
+        </div>
       </article>
     );
   }
