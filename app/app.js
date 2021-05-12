@@ -17,12 +17,15 @@ import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
+import './assets/styles/tailwind.css';
+import './assets/styles/main.scss';
+
 // Import root app
 import App from 'containers/App';
 
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved */
-import '!file-loader?name=[name].[ext]!./images/favicon.ico';
+import '!file-loader?name=[name].[ext]!./assets/images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess';
 /* eslint-enable import/no-unresolved */
 

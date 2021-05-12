@@ -13,7 +13,7 @@
     "npmcheckversion": "node ./internals/scripts/npmcheckversion.js",
     "build": "cross-env NODE_ENV=production postcss:build & webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress --hide-modules --display-optimization-bailout",
     "build:clean": "rimraf ./build",
-    "postcss:build": "postcss ./app/components/common/styles/tailwind.css -o ./app/components/common/styles/tailwind.css",
+    "postcss:build": "postcss ./app/assets/styles/tailwind.css -o ./app/assets/styles/tailwind.css",
     "start": "cross-env NODE_ENV=development node server",
     "dashboard": "cross-env NODE_ENV=development webpack-dashboard -m -- node server",
     "api": "json-server app/components/common/data/api.js --port 4000",
