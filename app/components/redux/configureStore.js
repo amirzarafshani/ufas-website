@@ -6,7 +6,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { routerMiddleware } from 'connected-react-router';
 import { createInjectorsEnhancer, forceReducerReload } from 'redux-injectors';
 import createSagaMiddleware from 'redux-saga';
-import createReducer from './reducers';
+import createReducer from './reducers/index';
 
 export default function configureAppStore(initialState = {}, history) {
   const reduxSagaMonitorOptions = {};
@@ -36,7 +36,7 @@ export default function configureAppStore(initialState = {}, history) {
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
   if (module.hot) {
-    module.hot.accept('./reducers', () => {
+    module.hot.accept('./reducers/index', () => {
       forceReducerReload(store);
     });
   }

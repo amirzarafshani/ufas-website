@@ -27,7 +27,7 @@ import 'file-loader?name=.htaccess!./.htaccess';
 /* eslint-enable import/no-unresolved */
 
 import { HelmetProvider } from 'react-helmet-async';
-import configureStore from './configureStore';
+import configureStore from './components/redux/configureStore';
 
 // the index.html file and this observer)
 const openSansObserver = new FontFaceObserver('Open Sans', {});
