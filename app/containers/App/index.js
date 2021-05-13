@@ -14,6 +14,9 @@ import { Helmet } from 'react-helmet-async';
 import { hot } from 'react-hot-loader/root';
 import Layout from 'components/common/Layout/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
+import Login from 'containers/Login/Loadable';
+import Register from 'containers/Register/Loadable';
+import Activation from 'containers/Activation/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 function App() {
@@ -32,6 +35,9 @@ function App() {
       <MainLayout>
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/activation" component={Activation} />
           <Route path="" component={NotFoundPage} />
         </Switch>
       </MainLayout>
