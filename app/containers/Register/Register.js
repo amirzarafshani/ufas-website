@@ -78,7 +78,7 @@ const Register = (props) => {
         if (user.active) {
           history.push('/');
         } else {
-          history.push('/activatuin');
+          history.push('/activation');
         }
       })
       .catch((err) => {

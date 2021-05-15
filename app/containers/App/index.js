@@ -17,6 +17,8 @@ import HomePage from 'containers/HomePage/Loadable';
 import Login from 'containers/Login/Loadable';
 import Register from 'containers/Register/Loadable';
 import Activation from 'containers/Activation/Loadable';
+import Profile from 'containers/Profile/Loadable';
+import Cart from 'containers/Cart/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/activation" component={Activation} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/cart" component={Cart} />
           <Route path="" component={NotFoundPage} />
         </Switch>
       </MainLayout>
