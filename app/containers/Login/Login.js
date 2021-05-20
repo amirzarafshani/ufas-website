@@ -5,6 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import userService from '../../services/userService';
 import withAuth from '../../components/redux/providers/withAuth';
+import withCart from '../../components/redux/providers/withCart';
 import history from '../../utils/history';
 
 const Login = (props) => {
@@ -14,12 +15,13 @@ const Login = (props) => {
     userService
       .login(values)
       .then((res) => {
-        let user = res.data;
-        localStorage.setItem('user', JSON.stringify(user));
-        props.login(user);
+        let data = res.data;
+        localStorage.setItem('user', JSON.stringify(data.user));
+        props.login(data.user);
+        props.setCart(data.cart);
         setSubmitting(false);
-        if (user.active) {
-          history.push('/');
+        if (data.user.active) {
+          history.push('/profile');
         } else {
           history.push('/activatuin');
         }
@@ -162,4 +164,4 @@ const Login = (props) => {
   );
 };
 
-export default withAuth(Login);
+export default withCart(withAuth(Login));

@@ -11,6 +11,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import cartService from '../../../services/cartService';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import _ from 'lodash';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -22,8 +23,6 @@ const Header = (props) => {
   const [itemLoading, setItemLoading] = useState(undefined);
   const cart = props.cart;
   const user = props.user;
-
-  console.log(user);
 
   const handleRemoveItem = (itemId) => {
     setItemLoading(itemId);
@@ -40,6 +39,7 @@ const Header = (props) => {
 
   const handleLogout = () => {
     props.logout();
+    props.setCart({});
     history.push('/');
   };
 
@@ -54,13 +54,13 @@ const Header = (props) => {
         x-data={mobileMenuOpen ? 'false' : 'true'}
         className="relative bg-indigo-600 text-white"
       >
-        <div class="bg-gradient-to-r from-indigo-600 to-light-blue-500 h-16">
-          <div class="relative">
-            <div class="overflow-hidden h-16 absolute w-full">
+        <div className="bg-gradient-to-r from-indigo-600 to-light-blue-500 h-16">
+          <div className="relative">
+            <div className="overflow-hidden h-16 absolute w-full">
               <svg
                 fill="none"
                 viewBox="0 0 848 513"
-                class="sm:hidden absolute right-1/2 transform translate-x-[235px] translate-y-[-90px] w-[848px] h-[513px]"
+                className="sm:hidden absolute right-1/2 transform translate-x-[235px] translate-y-[-90px] w-[848px] h-[513px]"
               >
                 <path
                   fill="#fff"
@@ -132,7 +132,7 @@ const Header = (props) => {
               <svg
                 fill="none"
                 viewBox="0 0 848 513"
-                class="hidden sm:block absolute right-1/2 transform translate-x-[-150px] translate-y-[-250px] w-[848px] h-[513px]"
+                className="hidden sm:block absolute right-1/2 transform translate-x-[-150px] translate-y-[-250px] w-[848px] h-[513px]"
               >
                 <path
                   fill="#fff"
@@ -186,7 +186,7 @@ const Header = (props) => {
               <svg
                 fill="none"
                 viewBox="0 0 848 513"
-                class="hidden sm:block absolute left-1/2 transform translate-x-[330px] translate-y-[-357px] w-[848px] h-[513px]"
+                className="hidden sm:block absolute left-1/2 transform translate-x-[330px] translate-y-[-357px] w-[848px] h-[513px]"
               >
                 <path
                   fill="#fff"
@@ -222,7 +222,7 @@ const Header = (props) => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 flex w-full items-center h-16">
-              <div className="flex py-4 sm:py-2 justify-between items-center md:justify-start md:space-x-10 w-full">
+              <div className="z-10 flex py-4 sm:py-2 justify-between items-center md:justify-start md:space-x-10 w-full">
                 <div className="flex justify-start items-center lg:w-0 lg:flex-1 group">
                   <a href="#">
                     <span className="sr-only">UFAS</span>
@@ -245,27 +245,31 @@ const Header = (props) => {
                 <nav className="hidden md:flex space-x-10">
                   <Link
                     to="/"
-                    className="text-base font-medium text-white hover:text-gray-300"
+                    className="z-10 text-base font-medium text-white hover:text-gray-300 cursor-pointer"
                   >
                     Home
                   </Link>
                 </nav>
                 <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                  {user != undefined ? (
+                  {user != undefined && !_.isEmpty(user) ? (
                     <div className="flex items-center">
                       {cart && (
                         <div className="flex items-center">
-                          <div class="relative text-black">
-                            <div class="flex flex-row cursor-pointer truncate p-2 px-4  rounded">
-                              <div class="flex flex-row-reverse ml-2 w-full">
+                          <div className="relative text-black">
+                            <div className="flex flex-row cursor-pointer truncate p-2 px-4  rounded">
+                              <div className="flex flex-row-reverse ml-2 w-full">
                                 <a
                                   onClick={() => setCartMenuOpen(!cartMenuOpen)}
                                   slot="icon"
-                                  class="relative"
+                                  className="relative"
                                 >
-                                  <div class="absolute text-xs rounded-full -mt-1 -mr-2 px-1 font-bold top-0 right-0 bg-red-700 text-white">
-                                    {cart.total_items}
-                                  </div>
+                                  {cart.total_items ? (
+                                    <div className="absolute text-xs rounded-full -mt-1 -mr-2 px-1 font-bold top-0 right-0 bg-red-700 text-white">
+                                      {cart.total_items}
+                                    </div>
+                                  ) : (
+                                    ''
+                                  )}
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="100%"
@@ -276,7 +280,7 @@ const Header = (props) => {
                                     stroke-width="2"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
-                                    class="feather feather-shopping-cart w-6 h-6 text-white content-fill"
+                                    className="feather feather-shopping-cart w-6 h-6 text-white content-fill"
                                   >
                                     <circle cx="9" cy="21" r="1"></circle>
                                     <circle cx="20" cy="21" r="1"></circle>
@@ -286,16 +290,16 @@ const Header = (props) => {
                               </div>
                             </div>
                             <div
-                              class="absolute w-full top-16 rounded-b border-t-0 z-10"
+                              className="absolute w-full top-16 rounded-b border-t-0 z-10"
                               style={{ display: cartMenuOpen ? '' : 'none' }}
                             >
                               {cart &&
                                 cart.cart_items &&
                                 cart.cart_items.length > 0 && (
-                                  <div class="shadow-xl w-64 border border-gray-100 p-4 z-20 bg-white">
+                                  <div className="shadow-xl w-64 border border-gray-100 p-4 z-10 bg-white">
                                     {cart.cart_items.map((item, index) => (
                                       <div
-                                        class="p-2 flex bg-white border-b border-gray-100 relative"
+                                        className="p-2 flex bg-white border-b border-gray-100 relative"
                                         key={index}
                                       >
                                         {itemLoading === item.id && (
@@ -303,25 +307,25 @@ const Header = (props) => {
                                             <div className="dot-pulse"></div>
                                           </div>
                                         )}
-                                        <div class="flex-auto text-sm w-32">
-                                          <div class="font-bold">
+                                        <div className="flex-auto text-sm w-32">
+                                          <div className="font-bold">
                                             {item.plan ? item.plan.name : ''}
                                           </div>
-                                          <div class="truncate">
+                                          <div className="truncate">
                                             {item.plan
                                               ? item.plan.days + ' Days'
                                               : ''}
                                           </div>
-                                          <div class="text-gray-400">
+                                          <div className="text-gray-400">
                                             Qty: {item.qty}
                                           </div>
                                         </div>
-                                        <div class="flex flex-col w-18 font-medium items-end">
+                                        <div className="flex flex-col w-18 font-medium items-end">
                                           <a
                                             onClick={() =>
                                               handleRemoveItem(item.id)
                                             }
-                                            class="w-4 h-4 mb-6 hover:bg-red-200 rounded-full cursor-pointer text-red-700"
+                                            className="w-4 h-4 mb-6 hover:bg-red-200 rounded-full cursor-pointer text-red-700"
                                           >
                                             <svg
                                               xmlns="http://www.w3.org/2000/svg"
@@ -333,7 +337,7 @@ const Header = (props) => {
                                               stroke-width="2"
                                               stroke-linecap="round"
                                               stroke-linejoin="round"
-                                              class="feather feather-trash-2 "
+                                              className="feather feather-trash-2 "
                                             >
                                               <polyline points="3 6 5 6 21 6"></polyline>
                                               <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -355,9 +359,25 @@ const Header = (props) => {
                                         </div>
                                       </div>
                                     ))}
-                                    <div class="pt-4 justify-center flex bg-white">
+                                    <div className="pt-4 flex flex-col justify-center flex bg-white">
+                                      <Link
+                                        onClick={() => setCartMenuOpen(false)}
+                                        to="/cart"
+                                        className="bg-green-500 text-center
+                                    font-semibold
+                                    hover:bg-green-700
+                                    py-3
+                                    text-sm text-white
+                                    uppercase
+                                    w-full rounded"
+                                      >
+                                        View Cart
+                                      </Link>
+                                    </div>
+                                    {/* <div className="pt-4 justify-center flex bg-white">
                                       <button
-                                        class="bg-indigo-500
+                                        onClick={() => setCartMenuOpen(false)}
+                                        className="bg-indigo-500
                                     font-semibold
                                     hover:bg-indigo-700
                                     py-3
@@ -367,7 +387,7 @@ const Header = (props) => {
                                       >
                                         Checkout ${cart.total_price}
                                       </button>
-                                    </div>
+                                    </div> */}
                                   </div>
                                 )}
                             </div>
@@ -400,28 +420,15 @@ const Header = (props) => {
                                 >
                                   <Menu.Item>
                                     {({ active }) => (
-                                      <a
-                                        href="#"
+                                      <Link
+                                        to="/profile"
                                         className={classNames(
-                                          active ? 'bg-gray-100' : '',
+                                          active ? 'z-50 bg-gray-100' : '',
                                           'block px-4 py-2 text-sm text-gray-700',
                                         )}
                                       >
                                         Your Profile
-                                      </a>
-                                    )}
-                                  </Menu.Item>
-                                  <Menu.Item>
-                                    {({ active }) => (
-                                      <a
-                                        href="#"
-                                        className={classNames(
-                                          active ? 'bg-gray-100' : '',
-                                          'block px-4 py-2 text-sm text-gray-700',
-                                        )}
-                                      >
-                                        Settings
-                                      </a>
+                                      </Link>
                                     )}
                                   </Menu.Item>
                                   <Menu.Item>
@@ -429,7 +436,7 @@ const Header = (props) => {
                                       <a
                                         onClick={() => handleLogout()}
                                         className={classNames(
-                                          active ? 'bg-gray-100' : '',
+                                          active ? 'z-50 bg-gray-100' : '',
                                           'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
                                         )}
                                       >
@@ -445,20 +452,22 @@ const Header = (props) => {
                       </div>
                     </div>
                   ) : (
-                    <React.Component>
+                    <React.Fragment>
                       <Link
                         to="/login"
-                        className="ml-8 whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent 
+                        rounded-md shadow-sm text-base font-medium text-white bg-indigo-500 hover:bg-indigo-700"
                       >
                         Sign in
                       </Link>
                       <Link
                         to="/register"
-                        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                        className="ml-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent 
+                        rounded-md shadow-sm text-base font-medium text-white bg-indigo-400 hover:bg-indigo-700"
                       >
                         Sign up
                       </Link>
-                    </React.Component>
+                    </React.Fragment>
                   )}
                 </div>
               </div>
@@ -492,7 +501,7 @@ const Header = (props) => {
                   <div className="grid grid-cols-2 gap-y-4 gap-x-8">
                     <Link
                       to="/"
-                      className="text-base font-medium text-gray-900 hover:text-gray-700"
+                      className="text-base font-medium text-gray-900 hover:text-gray-700 cursor-pointer z-50"
                     >
                       Home
                     </Link>
